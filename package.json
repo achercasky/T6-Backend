@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "hapi": "^17.5.1"
+    "fs": "0.0.1-security",
+    "hapi": "^17.5.1",
+    "pdfkit": "^0.8.3"
   }
 }

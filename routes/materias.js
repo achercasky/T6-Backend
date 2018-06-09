@@ -4,7 +4,7 @@ const constructors = require('./models/constructors');
 
 const HANDLERS = {};
 
-HANDLERS.getMaterias = (request, reply) => {
+HANDLERS.getCronograma = (request, reply) => {
 
     var horaUno = new constructors.Cronograma("Taller de Com. 1", "Algoritmos", "Matematica", "Taller de Com. 1");
     var horaDos = new constructors.Cronograma("Taller de Com. 1", "Algoritmos", "Matematica", "Taller de Com. 1");
@@ -27,7 +27,6 @@ HANDLERS.getMaterias = (request, reply) => {
     result.push(horaCinco);
     result.push(horaSeis);
     
-  
     return result;
 }
 

@@ -4,7 +4,7 @@ const Hapi = require('hapi');
 const routes = require('./route');
 
 //Crea servidor con su puerto
-const server = Hapi.server({ port: process.env.PORT || 8083});
+const server = Hapi.server({ port: process.env.PORT || 8080});
 
 // Ruta de todos los endpoints
 server.route(routes);
