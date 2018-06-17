@@ -10,18 +10,18 @@ const server = new Hapi.Server({
     port: process.env.PORT || 8080,
     routes: {
         files: {
-            relativeTo: Path.join(__dirname, '/') //Path para buscar todo lo relacionado a html
+            relativeTo: Path.join(__dirname, '/') //Path para buscar todos los archivos en la carpeta root
         }
     }
 });
 
-// Ruta de todos los endpoints
-server.route(routes);
-
 // Inicia el servidor
 async function start() {
 
-    await server.register(Inert);//Primero se tiene que registrar
+    await server.register(Inert); //Primero se tiene que registrar
+
+    // Ruta de todos los endpoints
+    await server.route(routes);
 
     try {
         await server.start();
