@@ -3,6 +3,9 @@
 const HANDLERS = {};
 
 HANDLERS.getAlumnos = (request, reply) => {
+
+console.log('paso getAlumnos');
+
     var alumnos = [
         {
           "name": "Facundo",
@@ -52,7 +55,7 @@ HANDLERS.getAlumnos = (request, reply) => {
             }
           ]
         }
-      ]
+      ];
 
       return alumnos;
 }
