@@ -20,7 +20,13 @@ HANDLERS.generarPDF = (request, reply) => {
     });
     doc.end();
 
-    return validateCreation();
+    return reply.file('output.pdf', { mode:'attachment' });
+
+    //Muestra el pdf en la web 
+    //return doc
+
+    //JSON que dice si se creo o no el pdf
+    //return validateCreation();
 }
 
 let validateCreation = async function () {

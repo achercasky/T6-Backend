@@ -11,22 +11,6 @@ const Routes = [
         handler: Materias.getCronograma
     },
     {
-        method: 'POST',
-        path: '/asistencia'
-    },
-    {
-        method: ['GET','POST,','PUT','DELETE'],
-        path: '/alumno'
-    },
-    {
-        method: ['GET','POST,','PUT','DELETE'],
-        path: '/horario'
-    },
-    {
-        method: ['GET','POST,','PUT','DELETE'],
-        path: '/materia'
-    },
-    {
         method: 'GET',
         path: '/reporte',
         handler: Reporte.generarPDF
