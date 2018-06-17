@@ -6,6 +6,8 @@ const Alumno = require('./routes/alumno');
 
 const Reporte = require('./routes/reporte');
 
+const Presentismo = require('./routes/presentismo');
+
 const Routes = [
     {
         method: 'GET',
@@ -33,6 +35,11 @@ const Routes = [
         handler: Alumno.getAlumnos
     },
     {
+        method: 'POST',
+        path: '/asistencia',
+        handler: Presentismo.sendAsistencia
+    },
+    {
         method: 'GET',
         path: '/reporte',
         handler: Reporte.generarPDF
@@ -40,3 +47,12 @@ const Routes = [
 ]
 
 module.exports = Routes;
+
+/* {
+    method: ['GET','POST,','PUT','DELETE'],
+    path: '/horario'
+},
+{
+    method: ['GET','POST,','PUT','DELETE'],
+    path: '/materia'
+},*/
