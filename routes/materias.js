@@ -30,6 +30,22 @@ HANDLERS.getCronograma = (request, reply) => {
     return result;
 }
 
+HANDLERS.getMaterias = () => {
+
+}
+
+HANDLERS.postMateria = () => {
+
+}
+
+HANDLERS.putMateria = () => {
+
+}
+
+HANDLERS.deleteMateria = () => {
+
+}
+
 module.exports = HANDLERS;
 
 //nombre - id - horario

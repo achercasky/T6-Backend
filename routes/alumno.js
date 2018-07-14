@@ -9,6 +9,7 @@ console.log('paso getAlumnos');
     var alumnos = [
         {
           "name": "Facundo",
+          "surname": "Vani",
           "legajo": "A",
           "materias": [
             {
@@ -25,6 +26,7 @@ console.log('paso getAlumnos');
         },
         {
           "name": "Ariel",
+          "surname": "Chercasky",
           "legajo": "AB",
           "materias": [
             {
@@ -41,6 +43,7 @@ console.log('paso getAlumnos');
         },
         {
           "name": "Martin",
+          "surname": "Cetani",
           "legajo": "AA",
           "materias": [
             {

@@ -8,11 +8,34 @@ const Reporte = require('./routes/reporte');
 
 const Presentismo = require('./routes/presentismo');
 
+const Horario = require('./routes/horario');
+
 const Routes = [
+    
     {
         method: 'GET',
         path: '/cronograma',
         handler: Materias.getCronograma
+    },
+    {
+        method: 'GET',
+        path: '/materias',
+        handler: Materias.getMaterias
+    },
+    {
+        method: 'POST',
+        path: '/materias',
+        handler: Materias.postMateria
+    },
+    {
+        method: 'PUT',
+        path: '/materias',
+        handler: Materias.putMateria
+    },
+    {
+        method: 'DELETE',
+        path: '/materias',
+        handler: Materias.deleteMateria
     },
     {
         method: 'GET',
@@ -41,18 +64,29 @@ const Routes = [
     },
     {
         method: 'GET',
+        path: '/horarios',
+        handler: Horario.getHorarios
+    },
+    {
+        method: 'POST',
+        path: '/horarios',
+        handler: Horario.postHorarios
+    },
+    {
+        method: 'PUT',
+        path: '/horarios',
+        handler: Horario.putHorarios
+    },
+    {
+        method: 'DELETE',
+        path: '/horarios',
+        handler: Horario.deleteHorarios
+    },
+    {
+        method: 'GET',
         path: '/reporte',
         handler: Reporte.generarPDF
     }
 ]
 
 module.exports = Routes;
-
-/* {
-    method: ['GET','POST,','PUT','DELETE'],
-    path: '/horario'
-},
-{
-    method: ['GET','POST,','PUT','DELETE'],
-    path: '/materia'
-},*/

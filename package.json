@@ -11,6 +11,7 @@
   "dependencies": {
     "fs": "0.0.1-security",
     "hapi": "^17.5.1",
+    "hapi-cors-headers": "^1.0.3",
     "inert": "^5.1.0",
     "path": "^0.12.7",
     "pdfkit": "^0.8.3"

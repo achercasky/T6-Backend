@@ -1,6 +1,7 @@
 'use strict';
 
 const Hapi = require('hapi');
+
 const routes = require('./route');
 const Inert = require('inert'); //Sirve para manejar todo lo relacionado a archivos estaticos y directorios
 const Path = require('path');
@@ -11,9 +12,13 @@ const server = new Hapi.Server({
     routes: {
         files: {
             relativeTo: Path.join(__dirname, '/') //Path para buscar todos los archivos en la carpeta root
-        }
+        },
+        cors: {origin: ['*'],
+        credentials: true}
     }
 });
+
+
 
 // Inicia el servidor
 async function start() {
