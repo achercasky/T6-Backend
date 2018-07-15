@@ -1,0 +1,53 @@
+[
+    {
+      "name": "Facundo",
+      "surname": "Vani",
+      "legajo": "A",
+      "materias": [
+        {
+          "nombre": "Taller de Com. 1",
+          "id": 0,
+          "horarios": [
+            {
+              "dia": "Lunes",
+              "hora": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Ariel",
+      "surname": "Chercasky",
+      "legajo": "AB",
+      "materias": [
+        {
+          "nombre": "Taller de Com. 1",
+          "id": 0,
+          "horarios": [
+            {
+              "dia": "Lunes",
+              "hora": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Martin",
+      "surname": "Cetani",
+      "legajo": "AA",
+      "materias": [
+        {
+          "nombre": "Taller de Com. 1",
+          "id": 0,
+          "horarios": [
+            {
+              "dia": "Lunes",
+              "hora": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]

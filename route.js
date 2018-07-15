@@ -55,7 +55,7 @@ const Routes = [
     {
         method: 'DELETE',
         path: '/alumnos',
-        handler: Alumno.getAlumnos
+        handler: Alumno.deleteAlumnos
     },
     {
         method: 'POST',
