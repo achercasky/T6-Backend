@@ -7,10 +7,9 @@ require('dotenv').config();
 
 let DB_NAME = 't6';
 
-
-
 const HANDLERS = {};
 
+/** Obtener ALUMNOS */
 HANDLERS.getAlumnosfromDB = async function getAlumnos() {
 
     const client = await MongoClient.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
@@ -34,6 +33,63 @@ HANDLERS.getAlumnosfromDB = async function getAlumnos() {
     return alumnos;
 }
 
+/** Agregar Alumno */
+HANDLERS.postAlumnosfromDB = async (request, reply) => {
+    const client = await MongoClient.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
+
+    var alumnos;
+
+    try {
+        const db = await client.db(DB_NAME);
+
+        const body = request.payload;
+
+        const collection = db.collection("Alumno").insertOne(body);
+
+        alumnos = collection;
+
+        console.log('do something with %o', collection);
+    } catch (err) {
+        console.log(err);
+    } finally {
+        client.close();
+    }
+
+    return alumnos.then(function(result) {
+        return result;
+     })  
+}
+
+/** Editar Alumno */
+HANDLERS.editAlumnosfromDB = async (request, reply) => {
+    const client = await MongoClient.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
+
+    const alumno = [];
+
+    var collection;
+
+    try {
+        const db = await client.db(DB_NAME);
+
+        const body = request.payload;
+
+        alumno.push(new ObjectID(body.id));
+
+        collection = db.collection("Alumno").updateOne({'_id':{'$in':alumno}}, {$set: {"name": body.name, "surname": body.surname}});
+
+        //alumnos = collection;
+    } catch (err) {
+        console.log(err);
+    } finally {
+        client.close();
+    }
+
+    return collection.then(function(result) {
+        return result;
+     })  
+}
+
+/** BORRAR ALUMNOS */
 HANDLERS.deleteAlumnos = async (request, reply) => {
 
     const alumnos = [];

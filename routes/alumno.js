@@ -9,11 +9,15 @@ HANDLERS.getAlumnos = (request, reply) => {
 }
 
 HANDLERS.postAlumno = (request, reply) => {
+    console.log('Paso postAlumno')
 
+    return AlumnoDB.postAlumnosfromDB(request, reply);
 }
 
 HANDLERS.putAlumno = (request, reply) => {
+    console.log('Paso putAlumno')
 
+    return AlumnoDB.editAlumnosfromDB(request, reply);
 }
 
 HANDLERS.deleteAlumnos = (request, reply) => {
