@@ -107,6 +107,7 @@ HANDLERS.deleteAlumnos = async (request, reply) => {
         console.log(header);
 
         header.forEach(element => {
+            console.log('Element ' + element._id);
             alumnos.push(new ObjectID(element.id));
         });
 
