@@ -1,4 +1,4 @@
-const AlumnoDB = require('../routes/alumno/alumno-db');
+const AlumnoDB = require('../alumno/alumno-db');
 
 const HANDLERS = {};
 
