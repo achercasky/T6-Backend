@@ -28,10 +28,14 @@ HANDLERS.generarPDF = async (request, h) => {
 
     //request.response.header('Content-type', 'application/pdf');
 
-    /*return h.file(doc, { mode:'attachment' })
+    return h.file('output.pdf')
+        .header('Content-type', 'application/pdf')
+        .header('Content-Disposition', 'attachment; filename=output.pdf');
+
+        /*return h.file(doc, { mode:'attachment' })
         .header('Content-type', 'application/pdf')
         .header('Content-Disposition', 'attachment; filename=output.pdf');*/
-    return doc;
+    //return fs.readFile();
    
    
 
