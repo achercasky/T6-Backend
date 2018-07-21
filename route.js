@@ -2,11 +2,11 @@
 
 const Materias = require('./routes/materias');
 
-const Alumno = require('./routes/alumno');
+const Alumno = require('./routes/alumno/alumno');
 
 const Reporte = require('./routes/reporte');
 
-const Presentismo = require('./routes/presentismo');
+const Presentismo = require('./routes/asistencia/presentismo');
 
 const Horario = require('./routes/horario');
 
