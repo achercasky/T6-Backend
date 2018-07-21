@@ -8,6 +8,12 @@ HANDLERS.getAlumnos = (request, reply) => {
     return AlumnoDB.getAlumnosfromDB();
 }
 
+HANDLERS.getAlumnosById = (request, reply) => {
+    console.log('paso getAlumnosById');
+    
+    return AlumnoDB.getAlumnosfromDBById(request, reply);
+}
+
 HANDLERS.postAlumno = (request, reply) => {
     console.log('Paso postAlumno')
 
