@@ -8,8 +8,11 @@ const PDF = require('pdfkit');
 const HANDLERS = {};
 
 HANDLERS.generarPDF = async (request, reply) => {
-    const doc = new PDF({compress:false});
-    doc.pipe(fs.createWriteStream('output.pdf'));
+    let doc = new PDF;
+
+    const writeStream = fs.createWriteStream('output.pdf');
+
+    doc.pipe(writeStream);
 
     // Set a title and pass the X and Y coordinates
     doc.fontSize(15).text('TITULO !', 50, 50);
@@ -19,14 +22,25 @@ HANDLERS.generarPDF = async (request, reply) => {
         align: 'left'
     });
     doc.end();
+    writeStream.end();
 
-     return reply.file('output.pdf', { mode:'attachment' });
+    //const response = reply.response('success');
+    //response.type('Content-type');
+    //response.header('Content-type', 'application/pdf');
+
+    //request.response.header('Content-type', 'application/pdf');
+
+    return reply.file('output.pdf', { mode:'attachment' }).header('Content-type', 'application/pdf');
+    //return doc;
+   
    
 
     
+    
 
+    //console.log("dssd");
     //Muestra el pdf en la web 
-    //return doc
+    
 
     //JSON que dice si se creo o no el pdf
     //return validateCreation();
@@ -46,5 +60,6 @@ let validateCreation = async function () {
     }
 
 };
+
 
 module.exports = HANDLERS;
