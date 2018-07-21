@@ -7,8 +7,8 @@ const PDF = require('pdfkit');
 
 const HANDLERS = {};
 
-HANDLERS.generarPDF = (request, reply) => {
-    const doc = new PDF;
+HANDLERS.generarPDF = async (request, reply) => {
+    const doc = new PDF({compress:false});
     doc.pipe(fs.createWriteStream('output.pdf'));
 
     // Set a title and pass the X and Y coordinates
@@ -20,7 +20,10 @@ HANDLERS.generarPDF = (request, reply) => {
     });
     doc.end();
 
-    return reply.file('output.pdf', { mode:'attachment' });
+     return reply.file('output.pdf', { mode:'attachment' });
+   
+
+    
 
     //Muestra el pdf en la web 
     //return doc
