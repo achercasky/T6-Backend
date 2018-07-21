@@ -22,7 +22,7 @@ HANDLERS.generarPDF = async (request, reply) => {
         align: 'left'
     });
     doc.end();
-    writeStream.end();
+    //writeStream.end();
 
     //const response = reply.response('success');
     //response.type('Content-type');
