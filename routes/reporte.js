@@ -7,12 +7,10 @@ const PDF = require('pdfkit');
 
 const HANDLERS = {};
 
-HANDLERS.generarPDF = async (request, reply) => {
+HANDLERS.generarPDF = async (request, h) => {
     let doc = new PDF;
 
-    const writeStream = fs.createWriteStream('output.pdf');
-
-    doc.pipe(writeStream);
+    doc.pipe(fs.createWriteStream('output.pdf'));
 
     // Set a title and pass the X and Y coordinates
     doc.fontSize(15).text('TITULO !', 50, 50);
@@ -30,10 +28,10 @@ HANDLERS.generarPDF = async (request, reply) => {
 
     //request.response.header('Content-type', 'application/pdf');
 
-    return reply.file('output.pdf', { mode:'attachment' })
+    /*return h.file(doc, { mode:'attachment' })
         .header('Content-type', 'application/pdf')
-        .header('Content-Disposition', 'attachment; filename=output.pdf');
-    //return doc;
+        .header('Content-Disposition', 'attachment; filename=output.pdf');*/
+    return doc;
    
    
 
