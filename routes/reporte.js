@@ -11,8 +11,6 @@ const pdfMake = require('pdfmake');
 
 const path = require('path');
 
-const wait=require('wait.for-es6');
-
 const HANDLERS = {};
 
 HANDLERS.generarPDF = async (request, h) => {
