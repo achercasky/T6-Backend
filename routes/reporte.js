@@ -7,25 +7,25 @@ const PDF = require('pdfkit');
 
 const PdfPrinter = require('../node_modules/pdfmake/src/printer');
 
-const pdfMake = require('pdfmake');
-
 const path = require('path');
+
+const AsistenciaDB = require('../routes/asistencia/presentismo-db');
 
 const HANDLERS = {};
 
 HANDLERS.generarPDF = async (request, h) => {
-  /*  let doc = new PDF;*/
+    /*  let doc = new PDF;*/
 
-   // doc.pipe(fs.createWriteStream('output.pdf'));
+    // doc.pipe(fs.createWriteStream('output.pdf'));
 
     // Set a title and pass the X and Y coordinates
     //doc.fontSize(15).text('TITULO !', 50, 50);
     // Set the paragraph width and align direction
-   // doc.text('DETALEEEEEEeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', {
+    // doc.text('DETALEEEEEEeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', {
     //    width: 410,
-   //     align: 'left'
-   // });
-   // doc.end();
+    //     align: 'left'
+    // });
+    // doc.end();
     //writeStream.end();
 
     //const response = reply.response('success');
@@ -41,119 +41,157 @@ HANDLERS.generarPDF = async (request, h) => {
         .header('Content-type', 'text/pdf')
         .header('Content-Disposition', 'attachment; filename=output.pdf');*/
 
-        /*return h.file(doc, { mode:'attachment' })
-        .header('Content-type', 'application/pdf')
-        .header('Content-Disposition', 'attachment; filename=output.pdf');*/
+    /*return h.file(doc, { mode:'attachment' })
+    .header('Content-type', 'application/pdf')
+    .header('Content-Disposition', 'attachment; filename=output.pdf');*/
     //return fs.readFile();
 
-    var fontDescriptors = {
-        Roboto: {
-          normal: path.join(__dirname, '..', '', '/fonts/Roboto-Regular.ttf')
-        }
-      };
+    //const writer = 
 
-     // return pdfMakePrinter.createPdf(docDefinition).download();
-
-     var printer = new PdfPrinter(fontDescriptors);
-
-     //const writer = 
-
-     //console.log(printer);
+    //console.log(printer);
 
 
-     return writeToFile('foo.pdf').then(function(pdf, response) { 
-         console.log(response); 
+    const asistencias = AsistenciaDB.getAsistenciafromDBById(request, h);
 
-         console.log('------------------------------------');
+    console.log('Paso1' + asistencias);
 
-         console.log('pdf '+ pdf);
 
-         return h.file('foo.pdf')
-         .header('Content-type', 'text/pdf')
-         .header('Content-Disposition', 'attachment; filename=foo.pdf');
+
+    return asistencias.then(function (result) {
+
+        return createPDF('foo.pdf', result).then(function (pdf, response) {
+
+
+
+
+            console.log('Paso3' + response);
+
+            console.log('------------------------------------');
+
+            console.log('pdf ' + pdf);
+
+            return h.file('foo.pdf')
+                .header('Content-type', 'text/pdf')
+                .header('Content-Disposition', 'attachment; filename=foo.pdf');
+        });
+    })
+
+
+
+
+    /*var dd = {
+    content: [
+        'First paragraph',
+        'Another paragraph'
+    ]
+    };
+    var pdfDoc = printer.createPdfKitDocument(dd);
+
+    pdfDoc.pipe(fs.createWriteStream('basics.pdf')).on('finish', function(){
+        console.log("paso pipe");
     });
-     
-     /*var dd = {
-     content: [
-         'First paragraph',
-         'Another paragraph'
-     ]
-     };
-     var pdfDoc = printer.createPdfKitDocument(dd);
+    pdfDoc.end();
 
-     pdfDoc.pipe(fs.createWriteStream('basics.pdf')).on('finish', function(){
-         console.log("paso pipe");
-     });
-     pdfDoc.end();
-
-     console.log('pdfDoc');*/
+    console.log('pdfDoc');*/
 
 
     // return pdfDoc;
 
-    
-    
+
+
 
     //console.log("dssd");
     //Muestra el pdf en la web 
-    
+
 
     //JSON que dice si se creo o no el pdf
     //return validateCreation();
 }
 
-function writeToFile(filePath) {
+function createPDF(filePath, text) {
     return new Promise((resolve, reject) => {
 
-        var fontDescriptors = {
+        const fontDescriptors = {
             Roboto: {
-              normal: path.join(__dirname, '..', '', '/fonts/Roboto-Regular.ttf')
+                normal: path.join(__dirname, '..', '', '/fonts/Roboto-Regular.ttf')
             }
-          };
-    
-         // return pdfMakePrinter.createPdf(docDefinition).download();
-    
-        var printer = new PdfPrinter(fontDescriptors);
-
-      const file = fs.createWriteStream(filePath);
-      
-       // file.write(arr + "\n");
-      
-      //file.end();
-
-      var dd = {
-        content: [
-            'First paragraph',
-            'Another paragraph'
-        ]
         };
-        var pdfDoc = printer.createPdfKitDocument(dd);
-   
+
+        let printer = new PdfPrinter(fontDescriptors);
+
+        const file = fs.createWriteStream(filePath);
+
+        const TITULO = text.materia;
+
+        const alumnosPresentes = text.alumnos;
+
+        const alumnosList = [];
+
+        for (const index in alumnosPresentes) {
+
+            var presente;
+
+            if(alumnosPresentes[index].asistencia == true) {
+                presente = 'Presente';
+            } else {
+                presente = 'Ausente';
+            }
+
+            alumnosList.push(alumnosPresentes[index].name + ' ' + alumnosPresentes[index].surname + ' ' + presente + '\n');
+        }
+
+        console.log(alumnosList);
+
+        
+
+        var docDefinition = {
+            content: [
+                {
+                    text: TITULO,
+                    fontSize: 25
+                },
+                {
+                   text: alumnosList
+                
+                }
+                   
+            ],
+            styles: {
+                header: {
+                    fontSize: 18,
+                    bold: true
+                },
+                anotherStyle: {
+                    fontSize: 54
+                }
+            }
+        };
+        var pdfDoc = printer.createPdfKitDocument(docDefinition);
+
         pdfDoc.pipe(file);
         pdfDoc.end();
-        //file.end();
 
 
-      file.on("finish", () => { resolve(pdfDoc, file); }); // not sure why you want to pass a boolean
-      file.on("error", reject); // don't forget this!
+        file.on("finish", () => { resolve(pdfDoc, file); }); // not sure why you want to pass a boolean
+        file.on("error", reject); // don't forget this!
     });
-  }
+}
 
 function generatePdf(docDefinition, callback) {
-    
-  
+
+
     let chunks = [];
-  
+
     doc.on('data', (chunk) => {
-      chunks.push(chunk);
+        chunks.push(chunk);
     });
-    
+
     doc.on('end', () => {
-      callback(Buffer.concat(chunks));
+        callback(Buffer.concat(chunks));
     });
-  
-    
-  };
+
+
+};
 
 let validateCreation = async function () {
     console.log('Se creo');

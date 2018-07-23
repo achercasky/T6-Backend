@@ -7,7 +7,7 @@ const Path = require('path');
 
 //Crea servidor con su puerto
 const server = new Hapi.Server({
-    port: process.env.PORT || 8120,
+    port: process.env.PORT || 8080,
     routes: {
         files: {
             relativeTo: Path.join(__dirname, '/') //Path para buscar todos los archivos en la carpeta root
