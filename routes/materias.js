@@ -20,8 +20,8 @@ HANDLERS.postMateria = (request, h) => {
     return MateriaDB.postAlumnosfromDB(request, h);
 }
 
-HANDLERS.putMateria = () => {
-
+HANDLERS.putMateria = (request, h) => {
+    return MateriaDB.editMateriafromDB(request, h);
 }
 
 HANDLERS.deleteMateria = () => {

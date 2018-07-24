@@ -49,9 +49,50 @@ HANDLERS.postAlumnosfromDB = async (request, h) => {
         client.close();
     }
 
-    return collection.then(function(result) {
+    return collection.then(function (result) {
         return result;
-     });  
+    });
+}
+
+/** PUT MATERIAS */
+HANDLERS.editMateriafromDB = async (request, h) => {
+    const client = await MongoClient.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
+
+    const materia = [];
+
+    var collection;
+
+    try {
+        const db = await client.db(DB_NAME);
+
+        const body = request.payload;
+
+        console.log(body.horario);
+
+        materia.push(new ObjectID(body._id));
+
+        collection = db.collection(DB_COLLECTION_NAME).updateOne({ '_id': { '$in': materia } }, {
+            $set:
+            {
+                "name": body.name,
+                "horario": 
+                    {
+                        "hora": [body.horario.hora],
+                        "dia": [body.horario.dia]
+                    }
+                
+            }
+        });
+
+    } catch (err) {
+        console.log(err);
+    } finally {
+        client.close();
+    }
+
+    return collection.then(function (result) {
+        return result;
+    })
 }
 
 module.exports = HANDLERS;
