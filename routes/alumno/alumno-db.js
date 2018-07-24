@@ -43,7 +43,7 @@ HANDLERS.getAlumnosfromDBById = async (request, reply) => {
     try {
         const db = await client.db(DB_NAME);
 
-        var obj_id = new ObjectID(request.params.id);
+        var obj_id = new ObjectID(request.params._id);
 
         console.log(request.params.id);
 
@@ -135,7 +135,7 @@ HANDLERS.deleteAlumnos = async (request, reply) => {
 
         header.forEach(element => {
             console.log('Element ' + element._id);
-            alumnos.push(new ObjectID(element.id));
+            alumnos.push(new ObjectID(element._id));
         });
 
         response = db.collection("Alumno").remove({'_id':{'$in':alumnos}});
