@@ -1,8 +1,7 @@
 'use strict';
 
-const constructors = require('./models/constructors');
-
 const CronogramaDB = require('./cronograma/cronograma-db');
+const MateriaDB = require('./materia/materia-db');
 
 const HANDLERS = {};
 
@@ -12,21 +11,19 @@ HANDLERS.getCronograma = (request, h) => {
 }
 
 HANDLERS.getMaterias = () => {
-
+    return MateriaDB.getMateriasfromDB();
 }
 
-HANDLERS.postMateria = () => {
-
+HANDLERS.postMateria = (request, h) => {
+    return MateriaDB.postAlumnosfromDB(request, h);
 }
 
-HANDLERS.putMateria = () => {
-
+HANDLERS.putMateria = (request, h) => {
+    return MateriaDB.editMateriafromDB(request, h);
 }
 
-HANDLERS.deleteMateria = () => {
-
+HANDLERS.deleteMateria = (request, h) => {
+    return MateriaDB.deleteMateria(request, h);
 }
 
 module.exports = HANDLERS;
-
-//nombre - id - horario
