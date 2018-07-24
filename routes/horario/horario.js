@@ -17,7 +17,7 @@ HANDLERS.putHorarios = (request, h) => {
 }
 
 HANDLERS.deleteHorarios = (request, h) => {
-    return HorarioDB.deleteMateria(request, h);
+    return HorarioDB.deleteHorario(request, h);
 }
 
 module.exports = HANDLERS;

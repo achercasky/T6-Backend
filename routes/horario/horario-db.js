@@ -75,7 +75,7 @@ HANDLERS.editHorariosfromDB = async (request, h) => {
             $set:
             {
                 "dia": body.dia,
-                "horarios": [body.horarios]   
+                "horarios": [body.horarios]
             }
         });
 
@@ -91,11 +91,11 @@ HANDLERS.editHorariosfromDB = async (request, h) => {
 }
 
 /** DELETE HORARIOS */
-HANDLERS.deleteMateria = async (request, h) => {
+HANDLERS.deleteHorario = async (request, h) => {
 
     var response;
 
-    const materiasIds = [];
+    const ids = [];
 
     const client = await MongoClient.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
 
@@ -106,27 +106,27 @@ HANDLERS.deleteMateria = async (request, h) => {
         const header = request.payload;
 
         header.forEach(element => {
-            materiasIds.push(new ObjectID(element._id));
+            ids.push(new ObjectID(element._id));
         });
 
-        response = db.collection(DB_COLLECTION_NAME).remove({'_id':{'$in':materiasIds}});
+        response = db.collection(DB_COLLECTION_NAME).remove({ '_id': { '$in': ids } });
 
-    } catch(err) {
-        console.log('Error deleteAlumnos' + err);
+    } catch (err) {
+        console.log('Error deleteHorario' + err);
     } finally {
         client.close();
     }
 
     //The promise will always log pending as long as its results are not resolved yet. 
     //Regardless of the promise state (resolved or still pending) you must call .then on the promise to capture the results:
-    return response.then(function(result) {
+    return response.then(function (result) {
 
-        if(result.result.n == 1) {
+        if (result.result.n == 1) {
             return "Se BORRO";
         } else {
             return "NO SE BORRO";
         }
-     })  
+    })
 }
 
 module.exports = HANDLERS;
