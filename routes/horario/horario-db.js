@@ -55,10 +55,10 @@ HANDLERS.postHorariosfromDB = async (request, h) => {
 }
 
 /** PUT HORARIOS */
-HANDLERS.editMateriafromDB = async (request, h) => {
+HANDLERS.editHorariosfromDB = async (request, h) => {
     const client = await MongoClient.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
 
-    const materia = [];
+    const id = [];
 
     var collection;
 
@@ -69,18 +69,13 @@ HANDLERS.editMateriafromDB = async (request, h) => {
 
         console.log(body.horario);
 
-        materia.push(new ObjectID(body._id));
+        id.push(new ObjectID(body._id));
 
-        collection = db.collection(DB_COLLECTION_NAME).updateOne({ '_id': { '$in': materia } }, {
+        collection = db.collection(DB_COLLECTION_NAME).updateOne({ '_id': { '$in': id } }, {
             $set:
             {
-                "name": body.name,
-                "horario": 
-                    {
-                        "hora": [body.horario.hora],
-                        "dia": [body.horario.dia]
-                    }
-                
+                "dia": body.dia,
+                "horarios": [body.horarios]   
             }
         });
 

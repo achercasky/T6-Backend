@@ -13,7 +13,7 @@ HANDLERS.postHorarios = (request, h) => {
 }
 
 HANDLERS.putHorarios = (request, h) => {
-    return HorarioDB.editMateriafromDB(request, h);
+    return HorarioDB.editHorariosfromDB(request, h);
 }
 
 HANDLERS.deleteHorarios = (request, h) => {
