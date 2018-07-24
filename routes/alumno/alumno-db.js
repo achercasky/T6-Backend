@@ -89,7 +89,7 @@ HANDLERS.postAlumnosfromDB = async (request, reply) => {
 }
 
 /** Editar Alumno */
-HANDLERS.editAlumnosfromDB = async (request, reply) => {
+HANDLERS.editAlumnosfromDB = async (request, h) => {
     const client = await MongoClient.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
 
     const alumno = [];
@@ -101,11 +101,10 @@ HANDLERS.editAlumnosfromDB = async (request, reply) => {
 
         const body = request.payload;
 
-        alumno.push(new ObjectID(body.id));
+        alumno.push(new ObjectID(body._id));
 
         collection = db.collection("Alumno").updateOne({'_id':{'$in':alumno}}, {$set: {"name": body.name, "surname": body.surname}});
 
-        //alumnos = collection;
     } catch (err) {
         console.log(err);
     } finally {
