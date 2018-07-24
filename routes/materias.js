@@ -16,8 +16,8 @@ HANDLERS.getMaterias = () => {
     return MateriaDB.getMateriasfromDB();
 }
 
-HANDLERS.postMateria = () => {
-
+HANDLERS.postMateria = (request, h) => {
+    return MateriaDB.postAlumnosfromDB(request, h);
 }
 
 HANDLERS.putMateria = () => {
@@ -29,5 +29,3 @@ HANDLERS.deleteMateria = () => {
 }
 
 module.exports = HANDLERS;
-
-//nombre - id - horario
