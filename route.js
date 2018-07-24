@@ -8,7 +8,7 @@ const Reporte = require('./routes/reporte');
 
 const Presentismo = require('./routes/asistencia/presentismo');
 
-const Horario = require('./routes/horario');
+const Horario = require('./routes/horario/horario');
 
 const Routes = [
     
