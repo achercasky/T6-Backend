@@ -2,46 +2,83 @@
 
 //Permite trabajar con archivos de la compu
 const fs = require('fs');
-//Modulo para crear pdfs
-const PDF = require('pdfkit');
+
+const PdfPrinter = require('../node_modules/pdfmake/src/printer');
+
+const path = require('path');
+
+const AsistenciaDB = require('../routes/asistencia/presentismo-db');
 
 const HANDLERS = {};
 
-HANDLERS.generarPDF = (request, reply) => {
-    const doc = new PDF;
-    doc.pipe(fs.createWriteStream('output.pdf'));
+let FILE_NAME = 'reporte.pdf';
 
-    // Set a title and pass the X and Y coordinates
-    doc.fontSize(15).text('TITULO !', 50, 50);
-    // Set the paragraph width and align direction
-    doc.text('DETALEEEEEE', {
-        width: 410,
-        align: 'left'
+HANDLERS.generarPDF = async (request, h) => {
+    const asistencias = AsistenciaDB.getAsistenciafromDBById(request, h);
+
+    return asistencias.then(function (result) {
+
+        return createPDF(FILE_NAME, result).then(function (pdf, response) {
+
+            return h.file(FILE_NAME)
+                .header('Content-type', 'text/pdf')
+                .header('Content-Disposition', 'attachment; filename=reporte.pdf');
+        });
     });
-    doc.end();
-
-    return reply.file('output.pdf', { mode:'attachment' });
-
-    //Muestra el pdf en la web 
-    //return doc
-
-    //JSON que dice si se creo o no el pdf
-    //return validateCreation();
 }
 
-let validateCreation = async function () {
-    console.log('Se creo');
-    try {
-        var responseOK = {
-            status: 'ok',
-            statusCode: 200
-        };
-        return responseOK;
-    } catch (err) {
-        console.log(err);
-        return err;
-    }
+function createPDF(filePath, text) {
+    return new Promise((resolve, reject) => {
 
-};
+        const fontDescriptors = {
+            Roboto: {
+                normal: path.join(__dirname, '..', '', '/fonts/Roboto-Regular.ttf')
+            }
+        };
+
+        let printer = new PdfPrinter(fontDescriptors);
+
+        const file = fs.createWriteStream(filePath);
+
+        const TITULO = text.materia;
+
+        const alumnosPresentes = text.alumnos;
+
+        const alumnosList = [];
+
+        for (const index in alumnosPresentes) {
+
+            var presente;
+
+            if (alumnosPresentes[index].asistencia == true) {
+                presente = 'Presente';
+            } else {
+                presente = 'Ausente';
+            }
+
+            alumnosList.push(alumnosPresentes[index].name + ' ' + alumnosPresentes[index].surname + ' ' + presente + '\n');
+        }
+
+        var docDefinition = {
+            content: [
+                {
+                    text: TITULO,
+                    fontSize: 25
+                },
+                {
+                    text: alumnosList
+
+                }
+            ]
+        };
+        var pdfDoc = printer.createPdfKitDocument(docDefinition);
+
+        pdfDoc.pipe(file);
+        pdfDoc.end();
+
+        file.on("finish", () => { resolve(pdfDoc, file); });
+        file.on("error", reject);
+    });
+}
 
 module.exports = HANDLERS;
