@@ -1,6 +1,6 @@
 'use strict';
 
-const Materias = require('./routes/materias');
+const Materias = require('./routes/materia/materias');
 
 const Alumno = require('./routes/alumno/alumno');
 
@@ -21,6 +21,11 @@ const Routes = [
         method: 'GET',
         path: '/materias',
         handler: Materias.getMaterias
+    },
+    {
+        method: 'GET',
+        path: '/materias/{id}',
+        handler: Materias.getMateriasById
     },
     {
         method: 'POST',
