@@ -10,6 +10,10 @@ HANDLERS.getCronograma = (request, h) => {
     return CronogramaDB.getCronogramaFromDb();
 }
 
+HANDLERS.getCronogramaById = (request, h) => {
+    return CronogramaDB.getCronogramaByIdFromDb(request, h);
+}
+
 HANDLERS.getMaterias = () => {
     return MateriaDB.getMateriasfromDB();
 }
