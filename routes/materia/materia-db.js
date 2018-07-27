@@ -60,7 +60,7 @@ HANDLERS.getMateriasByIdfromDB = async (request, h) => {
 }
 
 /** POST MATERIAS */
-HANDLERS.postAlumnosfromDB = async (request, h) => {
+HANDLERS.postMateriasfromDB = async (request, h) => {
     const client = await MongoClient.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
 
     var collection;

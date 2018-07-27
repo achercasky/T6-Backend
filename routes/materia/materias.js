@@ -19,7 +19,7 @@ HANDLERS.getMateriasById = (request, h) => {
 }
 
 HANDLERS.postMateria = (request, h) => {
-    return MateriaDB.postAlumnosfromDB(request, h);
+    return MateriaDB.postMateriasfromDB(request, h);
 }
 
 HANDLERS.putMateria = (request, h) => {
