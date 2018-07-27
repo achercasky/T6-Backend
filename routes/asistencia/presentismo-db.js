@@ -12,7 +12,7 @@ let DB_COLLECTION_NAME = 'Asistencia';
 
 const HANDLERS = {};
 
-/** Valida si el alumno existe */
+/** POST ASISTENCIA */
 HANDLERS.postAsistenciafromDB = async (request, reply) => {
 
     const client = await MongoClient.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
@@ -24,7 +24,7 @@ HANDLERS.postAsistenciafromDB = async (request, reply) => {
 
         const body = request.payload;
 
-        const collection = db.collection("Asistencia").findOne({ "materia" : body.materia});
+        const collection = db.collection(DB_COLLECTION_NAME).findOne({ "materia" : body.materia});
 
         asistencias = collection
     } catch (err) {
@@ -54,7 +54,7 @@ async function postAsistencia(request, reply) {
 
         const body = request.payload;
 
-        asistencias = db.collection("Asistencia").insertOne(body);
+        asistencias = db.collection(DB_COLLECTION_NAME).insertOne(body);
          
         console.log('do something with %o', asistencias);
     } catch (err) {

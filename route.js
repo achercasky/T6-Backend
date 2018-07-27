@@ -4,7 +4,7 @@ const Materias = require('./routes/materia/materias');
 
 const Alumno = require('./routes/alumno/alumno');
 
-const Reporte = require('./routes/reporte');
+const Reporte = require('./routes/reporte/reporte');
 
 const Presentismo = require('./routes/asistencia/presentismo');
 
