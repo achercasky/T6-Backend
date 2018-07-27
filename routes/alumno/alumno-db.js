@@ -22,15 +22,18 @@ HANDLERS.getAlumnosfromDB = async function getAlumnos() {
         const collection = db.collection("Alumno").find().toArray();
 
         alumnos = collection;
-
-        console.log('do something with %o', collection);
     } catch (err) {
         console.log(err);
     } finally {
         client.close();
     }
 
-    return alumnos;
+    return alumnos.then(function(result) {
+        console.log('GET ALUMNOS ' + JSON.stringify(result));
+        return result;
+     }).catch(function(error) {
+         console.log('GET ALUMNOS ERROR' + error);
+     });
 }
 
 /** Obtener ALUMNOS by ID*/
