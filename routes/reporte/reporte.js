@@ -3,11 +3,11 @@
 //Permite trabajar con archivos de la compu
 const fs = require('fs');
 
-const PdfPrinter = require('../node_modules/pdfmake/src/printer');
+const PdfPrinter = require('../../node_modules/pdfmake/src/printer');
 
 const path = require('path');
 
-const AsistenciaDB = require('../routes/asistencia/presentismo-db');
+const AsistenciaDB = require('../asistencia/presentismo-db');
 
 const HANDLERS = {};
 

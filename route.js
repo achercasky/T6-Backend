@@ -1,17 +1,16 @@
 'use strict';
 
-const Materias = require('./routes/materias');
+const Materias = require('./routes/materia/materias');
 
 const Alumno = require('./routes/alumno/alumno');
 
-const Reporte = require('./routes/reporte');
+const Reporte = require('./routes/reporte/reporte');
 
 const Presentismo = require('./routes/asistencia/presentismo');
 
 const Horario = require('./routes/horario/horario');
 
 const Routes = [
-    
     {
         method: 'GET',
         path: '/cronograma',
@@ -19,8 +18,18 @@ const Routes = [
     },
     {
         method: 'GET',
+        path: '/cronograma/{id}',
+        handler: Materias.getCronogramaById
+    },
+    {
+        method: 'GET',
         path: '/materias',
         handler: Materias.getMaterias
+    },
+    {
+        method: 'GET',
+        path: '/materias/{id}',
+        handler: Materias.getMateriasById
     },
     {
         method: 'POST',

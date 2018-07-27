@@ -6,6 +6,7 @@ const ObjectID = mongo.ObjectID;
 require('dotenv').config();
 
 let DB_NAME = 't6';
+let DB_COLLECTION_NAME = 'Alumno';
 
 const HANDLERS = {};
 
@@ -19,22 +20,25 @@ HANDLERS.getAlumnosfromDB = async function getAlumnos() {
     try {
         const db = await client.db(DB_NAME);
 
-        const collection = db.collection("Alumno").find().toArray();
+        const collection = db.collection(DB_COLLECTION_NAME).find().toArray();
 
         alumnos = collection;
-
-        console.log('do something with %o', collection);
     } catch (err) {
         console.log(err);
     } finally {
         client.close();
     }
 
-    return alumnos;
+    return alumnos.then(function(result) {
+        console.log('GET ALUMNOS ' + JSON.stringify(result));
+        return result;
+     }).catch(function(error) {
+         console.log('GET ALUMNOS ERROR' + error);
+     });
 }
 
 /** Obtener ALUMNOS by ID*/
-HANDLERS.getAlumnosfromDBById = async (request, reply) => {
+HANDLERS.getAlumnosfromDBById = async (request, h) => {
 
     const client = await MongoClient.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
 
@@ -43,11 +47,11 @@ HANDLERS.getAlumnosfromDBById = async (request, reply) => {
     try {
         const db = await client.db(DB_NAME);
 
-        var obj_id = new ObjectID(request.params._id);
+        var id = new ObjectID(request.params.id);
 
         console.log(request.params.id);
 
-        collection = db.collection("Alumno").findOne({'_id':obj_id});
+        collection = db.collection(DB_COLLECTION_NAME).findOne({'_id':id});
         
     } catch (err) {
         console.log(err);
@@ -57,7 +61,9 @@ HANDLERS.getAlumnosfromDBById = async (request, reply) => {
 
     return collection.then(function(result) {
         return result;
-     })  
+     }).catch(function(error) {
+        console.log('GET ALUMNOS BY ID ERROR' + error);
+    });
 
 }
 

@@ -31,8 +31,36 @@ HANDLERS.getMateriasfromDB = async () => {
     return collection;
 }
 
+/** GET MATERIAS BY ID */
+HANDLERS.getMateriasByIdfromDB = async (request, h) => {
+
+    const client = await MongoClient.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
+
+    var collection;
+
+    try {
+        const db = await client.db(DB_NAME);
+
+        var id = new ObjectID(request.params.id);
+
+        collection = db.collection(DB_COLLECTION_NAME).findOne({'_id':id});
+
+    } catch (err) {
+        console.log(err);
+    } finally {
+        client.close();
+    }
+
+    return collection.then(function(result) {
+        console.log('GET MATERIAS BY ID ' + JSON.stringify(result));
+        return result;
+     }).catch(function(error) {
+         console.log('GET MATERIAS BY ID ERROR' + error);
+     });
+}
+
 /** POST MATERIAS */
-HANDLERS.postAlumnosfromDB = async (request, h) => {
+HANDLERS.postMateriasfromDB = async (request, h) => {
     const client = await MongoClient.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
 
     var collection;
