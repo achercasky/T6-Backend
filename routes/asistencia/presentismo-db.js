@@ -31,12 +31,12 @@ HANDLERS.getAsistenciafromDB = async () => {
         client.close();
     }
 
-    return collection.then(function(result) {
+    return collection.then(function (result) {
         console.log('GET ASISTENCIAS ' + JSON.stringify(result));
         return result;
-     }).catch(function(error) {
-         console.log('GET ASISTENCIAS ERROR' + error);
-     });
+    }).catch(function (error) {
+        console.log('GET ASISTENCIAS ERROR' + error);
+    });
 }
 
 /** GET ASISTENCIAS BY ID */
@@ -67,12 +67,12 @@ HANDLERS.getAsistenciaByIdfromDB = async (request, h) => {
         client.close();
     }
 
-    return collection.then(function(result) {
+    return collection.then(function (result) {
         console.log('GET ASISTENCIAS BY ID' + JSON.stringify(result));
         return result;
-     }).catch(function(error) {
-         console.log('GET ASISTENCIAS BY ID ERROR' + error);
-     });
+    }).catch(function (error) {
+        console.log('GET ASISTENCIAS BY ID ERROR' + error);
+    });
 }
 
 /** GET ASISTENCIAS BY QUERY DATE */
@@ -100,12 +100,47 @@ HANDLERS.getAsistenciaByQueryfromDB = async (date) => {
         client.close();
     }
 
-    return collection.then(function(result) {
+    return collection.then(function (result) {
         console.log('GET ASISTENCIAS BY QUERY' + JSON.stringify(result));
         return result;
-     }).catch(function(error) {
-         console.log('GET ASISTENCIAS BY QUERY ERROR' + error);
-     });
+    }).catch(function (error) {
+        console.log('GET ASISTENCIAS BY QUERY ERROR' + error);
+    });
+}
+
+/** GET ASISTENCIAS BY QUERY MATERIA */
+HANDLERS.getAsistenciaByMateriafromDB = async (id) => {
+
+    const client = await MongoClient.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
+
+    var collection;
+
+    try {
+        const db = await client.db(DB_NAME);
+
+        collection = db.collection(DB_COLLECTION_NAME).findOne(
+            {
+                'materias': {
+                    $elemMatch: {
+                        "id": id
+                    }
+                }
+
+            }
+        );
+
+    } catch (err) {
+        console.log(err);
+    } finally {
+        client.close();
+    }
+
+    return collection.then(function (result) {
+        console.log('GET ASISTENCIAS BY QUERY MATERIA ' + JSON.stringify(result));
+        return result;
+    }).catch(function (error) {
+        console.log('GET ASISTENCIAS BY QUERY MATERIA ERROR' + error);
+    });
 }
 
 /** POST ASISTENCIA */
@@ -130,16 +165,16 @@ HANDLERS.postAsistenciafromDB = async (request, h) => {
         client.close();
     }
 
-    return collection.then(function(result) {
+    return collection.then(function (result) {
         console.log('POST ASISTENCIA ' + result);
         return result;
 
-            /*if(result == null) {
-                 return postAsistencia(request, reply);
-             }else {
-                 return asistencias = {"title": "YA EXISTE!"};
-             }*/
-     }).catch(function(error) {
+        /*if(result == null) {
+             return postAsistencia(request, reply);
+         }else {
+             return asistencias = {"title": "YA EXISTE!"};
+         }*/
+    }).catch(function (error) {
         console.log('POST ASISTENCIA  ' + error);
     });
 }
@@ -185,16 +220,16 @@ HANDLERS.editAsistenciafromDB = async (request, h) => {
         body.date = DateFormat(body.date, 'shortDate');
 
         horarios.push(new ObjectID(body._id));
-        
 
-        collection = db.collection(DB_COLLECTION_NAME).updateOne( {'_id':{'$in':horarios} }, 
-        {
-            $set: 
+
+        collection = db.collection(DB_COLLECTION_NAME).updateOne({ '_id': { '$in': horarios } },
             {
-                "date": body.date, 
-                "materias": body.materias
-            }
-        });
+                $set:
+                {
+                    "date": body.date,
+                    "materias": body.materias
+                }
+            });
 
     } catch (err) {
         console.log(err);
@@ -205,9 +240,9 @@ HANDLERS.editAsistenciafromDB = async (request, h) => {
     return collection.then(function (result) {
         console.log('PUT ASISTENCIA ' + result);
         return result;
-    }).catch(function(error) {
+    }).catch(function (error) {
         console.log('PUT ASISTENCIA ' + error);
-    }); 
+    });
 }
 
 /** BORRAR ASISTENCIA */
@@ -229,23 +264,23 @@ HANDLERS.deleteAsistencia = async (request, h) => {
             asistencias.push(new ObjectID(element._id));
         });
 
-        response = db.collection(DB_COLLECTION_NAME).remove({'_id':{'$in':asistencias}});
+        response = db.collection(DB_COLLECTION_NAME).remove({ '_id': { '$in': asistencias } });
 
-    } catch(err) {
+    } catch (err) {
         console.log('Error deleteAsistencia' + err);
     } finally {
         client.close();
     }
 
-    return response.then(function(result) {
+    return response.then(function (result) {
         console.log(result.result.n)
 
-        if(result.result.n == 1) {
+        if (result.result.n == 1) {
             return "Se Borro el ASISTENCIA";
         } else {
             return "No se borro el ASISTENCIA";
         }
-     })  
+    })
 }
 
 module.exports = HANDLERS;

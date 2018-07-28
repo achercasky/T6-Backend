@@ -17,14 +17,13 @@ HANDLERS.generarPDF = async (request, h) => {
 
     var asistencias;
 
-    if (params.filter = 'dia') {
+    console.log(request.query.filter);
+
+    if (request.query.filter == 'dia') {
         asistencias = AsistenciaDB.getAsistenciaByQueryfromDB(request.query.id);
     } else {
-        id = params.id;
+        asistencias = AsistenciaDB.getAsistenciaByMateriafromDB(request.query.id);
     }
-
-
-    const asistencias = AsistenciaDB.getAsistenciaByQueryfromDB(request.query.id);
 
     return asistencias.then(function (result) {
 
@@ -54,6 +53,8 @@ function createPDF(filePath, text) {
         let printer = new PdfPrinter(fontDescriptors);
 
         const file = fs.createWriteStream(filePath);
+
+        console.log(text);
 
         const FECHA = text.date;
 
