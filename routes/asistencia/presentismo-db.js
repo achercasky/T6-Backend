@@ -75,6 +75,39 @@ HANDLERS.getAsistenciaByIdfromDB = async (request, h) => {
      });
 }
 
+/** GET ASISTENCIAS BY QUERY DATE */
+HANDLERS.getAsistenciaByQueryfromDB = async (date) => {
+
+    const client = await MongoClient.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
+
+    var collection;
+
+    try {
+        const db = await client.db(DB_NAME);
+
+        var requestDate = DateFormat(date, 'shortDate');
+        console.log(requestDate);
+
+        collection = db.collection(DB_COLLECTION_NAME).findOne(
+            {
+                'date': requestDate
+            }
+        );
+
+    } catch (err) {
+        console.log(err);
+    } finally {
+        client.close();
+    }
+
+    return collection.then(function(result) {
+        console.log('GET ASISTENCIAS BY QUERY' + JSON.stringify(result));
+        return result;
+     }).catch(function(error) {
+         console.log('GET ASISTENCIAS BY QUERY ERROR' + error);
+     });
+}
+
 /** POST ASISTENCIA */
 HANDLERS.postAsistenciafromDB = async (request, h) => {
 
@@ -150,7 +183,7 @@ HANDLERS.editAsistenciafromDB = async (request, h) => {
 
         const body = request.payload;
         body.date = DateFormat(body.date, 'shortDate');
-        
+
         horarios.push(new ObjectID(body._id));
         
 
@@ -170,10 +203,10 @@ HANDLERS.editAsistenciafromDB = async (request, h) => {
     }
 
     return collection.then(function (result) {
-        console.log('PUT ALUMNO ' + result);
+        console.log('PUT ASISTENCIA ' + result);
         return result;
     }).catch(function(error) {
-        console.log('PUT ALUMNO ' + error);
+        console.log('PUT ASISTENCIA ' + error);
     }); 
 }
 

@@ -118,7 +118,7 @@ const Routes = [
     },
     {
         method: 'GET',
-        path: '/reporte/{id}',
+        path: '/reporte',
         handler: Reporte.generarPDF
     }
 ]

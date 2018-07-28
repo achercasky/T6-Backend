@@ -14,15 +14,30 @@ const HANDLERS = {};
 let FILE_NAME = 'reporte.pdf';
 
 HANDLERS.generarPDF = async (request, h) => {
-    const asistencias = AsistenciaDB.getAsistenciafromDBById(request, h);
+
+    var asistencias;
+
+    if (params.filter = 'dia') {
+        asistencias = AsistenciaDB.getAsistenciaByQueryfromDB(request.query.id);
+    } else {
+        id = params.id;
+    }
+
+
+    const asistencias = AsistenciaDB.getAsistenciaByQueryfromDB(request.query.id);
 
     return asistencias.then(function (result) {
+
+        console.log(result);
 
         return createPDF(FILE_NAME, result).then(function (pdf, response) {
 
             return h.file(FILE_NAME)
                 .header('Content-type', 'text/pdf')
                 .header('Content-Disposition', 'attachment; filename=reporte.pdf');
+        }).catch(function(error) {
+            console.log(error);
+            return error;
         });
     });
 }
@@ -32,7 +47,7 @@ function createPDF(filePath, text) {
 
         const fontDescriptors = {
             Roboto: {
-                normal: path.join(__dirname, '..', '', '/fonts/Roboto-Regular.ttf')
+                normal: path.join(__dirname, '..', '', '../fonts/Roboto-Regular.ttf')
             }
         };
 
@@ -40,34 +55,45 @@ function createPDF(filePath, text) {
 
         const file = fs.createWriteStream(filePath);
 
-        const TITULO = text.materia;
+        const FECHA = text.date;
 
-        const alumnosPresentes = text.alumnos;
+        const materias = text.materias;
 
         const alumnosList = [];
 
-        for (const index in alumnosPresentes) {
+        for (const index in materias) {
 
             var presente;
 
-            if (alumnosPresentes[index].asistencia == true) {
-                presente = 'Presente';
-            } else {
-                presente = 'Ausente';
-            }
+            var nombreMateria = materias[index].name; 
 
-            alumnosList.push(alumnosPresentes[index].name + ' ' + alumnosPresentes[index].surname + ' ' + presente + '\n');
+            alumnosList.push(nombreMateria + '\n');
+
+            const alumnos = materias[index].alumnos
+
+            for (var i in alumnos) {
+
+                if (alumnos[i].presente == true) {
+                    presente = 'Presente';
+                } else {
+                    presente = 'Ausente';
+                }
+
+                alumnosList.push(alumnos[i].name + ' ' + alumnos[i].surname + ' ' + presente + '\n');
+            }
         }
+
+        console.log(FECHA);
+        console.log(alumnosList);
 
         var docDefinition = {
             content: [
                 {
-                    text: TITULO,
+                    text: FECHA,
                     fontSize: 25
-                },
+                }, 
                 {
                     text: alumnosList
-
                 }
             ]
         };
