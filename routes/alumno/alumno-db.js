@@ -67,34 +67,34 @@ HANDLERS.getAlumnosfromDBById = async (request, h) => {
 
 }
 
-/** Agregar Alumno */
-HANDLERS.postAlumnosfromDB = async (request, reply) => {
+/** POST Alumno */
+HANDLERS.postAlumnosfromDB = async (request, h) => {
     const client = await MongoClient.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
 
-    var alumnos;
+    var collection;
 
     try {
         const db = await client.db(DB_NAME);
 
         const body = request.payload;
 
-        const collection = db.collection("Alumno").insertOne(body);
+        collection = db.collection(DB_COLLECTION_NAME).insertOne(body);
 
-        alumnos = collection;
-
-        console.log('do something with %o', collection);
     } catch (err) {
         console.log(err);
     } finally {
         client.close();
     }
 
-    return alumnos.then(function(result) {
+    return collection.then(function (result) {
+        console.log('POST ALUMNO ' + result);
         return result;
-     })  
+    }).catch(function(error) {
+        console.log('POST ALUMNO ' + error);
+    }); 
 }
 
-/** Editar Alumno */
+/** PUT Alumno */
 HANDLERS.editAlumnosfromDB = async (request, h) => {
     const client = await MongoClient.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
 
@@ -109,7 +109,16 @@ HANDLERS.editAlumnosfromDB = async (request, h) => {
 
         alumno.push(new ObjectID(body._id));
 
-        collection = db.collection("Alumno").updateOne({'_id':{'$in':alumno}}, {$set: {"name": body.name, "surname": body.surname}});
+        collection = db.collection(DB_COLLECTION_NAME).updateOne( {'_id':{'$in':alumno} }, 
+        {
+            $set: 
+            {
+                "name": body.name, 
+                "surname": body.surname,
+                "legajo": body.legajo,
+                "materias": body.materias
+            }
+        });
 
     } catch (err) {
         console.log(err);
@@ -117,13 +126,16 @@ HANDLERS.editAlumnosfromDB = async (request, h) => {
         client.close();
     }
 
-    return collection.then(function(result) {
+    return collection.then(function (result) {
+        console.log('PUT ALUMNO ' + result);
         return result;
-     })  
+    }).catch(function(error) {
+        console.log('PUT ALUMNO ' + error);
+    }); 
 }
 
 /** BORRAR ALUMNOS */
-HANDLERS.deleteAlumnos = async (request, reply) => {
+HANDLERS.deleteAlumnos = async (request, h) => {
 
     const alumnos = [];
 
@@ -140,11 +152,10 @@ HANDLERS.deleteAlumnos = async (request, reply) => {
         console.log(header);
 
         header.forEach(element => {
-            console.log('Element ' + element._id);
             alumnos.push(new ObjectID(element._id));
         });
 
-        response = db.collection("Alumno").remove({'_id':{'$in':alumnos}});
+        response = db.collection(DB_COLLECTION_NAME).remove({'_id':{'$in':alumnos}});
 
     } catch(err) {
         console.log('Error deleteAlumnos' + err);
@@ -158,9 +169,9 @@ HANDLERS.deleteAlumnos = async (request, reply) => {
         console.log(result.result.n)
 
         if(result.result.n == 1) {
-            return "Se guardo";
+            return "Se Borro el Alumno";
         } else {
-            return "NO SE GUARDO";
+            return "No se borro el Alumno";
         }
      })  
 }
