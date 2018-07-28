@@ -72,9 +72,29 @@ const Routes = [
         handler: Alumno.deleteAlumnos
     },
     {
+        method: 'GET',
+        path: '/asistencia',
+        handler: Presentismo.getAsistencia
+    },
+    {
+        method: 'GET',
+        path: '/asistencia/{date}',
+        handler: Presentismo.getAsistenciaById
+    },
+    {
         method: 'POST',
         path: '/asistencia',
         handler: Presentismo.sendAsistencia
+    },
+    {
+        method: 'PUT',
+        path: '/asistencia',
+        handler: Presentismo.editAsistencia
+    },
+    {
+        method: 'DELETE',
+        path: '/asistencia',
+        handler: Presentismo.deleteAsistencia
     },
     {
         method: 'GET',
@@ -98,7 +118,7 @@ const Routes = [
     },
     {
         method: 'GET',
-        path: '/reporte/{id}',
+        path: '/reporte',
         handler: Reporte.generarPDF
     }
 ]
