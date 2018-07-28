@@ -57,6 +57,11 @@ const Routes = [
         handler: Alumno.getAlumnosById
     },
     {
+        method: 'GET',
+        path: '/alumnos/materias/{id}',
+        handler: Alumno.getAlumnosByMateriaId
+    },
+    {
         method: 'POST',
         path: '/alumnos',
         handler: Alumno.postAlumno
