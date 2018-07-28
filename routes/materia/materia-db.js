@@ -78,7 +78,10 @@ HANDLERS.postMateriasfromDB = async (request, h) => {
     }
 
     return collection.then(function (result) {
+        console.log('POST MATERIAS ' + result);
         return result;
+    }).catch(function(error) {
+        console.log('POST MATERIAS ' + error);
     });
 }
 
@@ -95,20 +98,15 @@ HANDLERS.editMateriafromDB = async (request, h) => {
 
         const body = request.payload;
 
-        console.log(body.horario);
-
         materia.push(new ObjectID(body._id));
 
         collection = db.collection(DB_COLLECTION_NAME).updateOne({ '_id': { '$in': materia } }, {
             $set:
             {
                 "name": body.name,
-                "horario": 
-                    {
-                        "hora": [body.horario.hora],
-                        "dia": [body.horario.dia]
-                    }
-                
+                "year": body.year,
+                "division": body.division,
+                "abreviatura": body.abreviatura
             }
         });
 
@@ -119,8 +117,11 @@ HANDLERS.editMateriafromDB = async (request, h) => {
     }
 
     return collection.then(function (result) {
+        console.log('PUT MATERIAS ' + result);
         return result;
-    })
+    }).catch(function(error) {
+        console.log('PUT MATERIAS ' + error);
+    });
 }
 
 /** DELETE MATERIA */
