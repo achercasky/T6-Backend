@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dateformat": "^3.0.3",
     "dotenv": "^6.0.0",
     "fs": "0.0.1-security",
     "hapi": "^17.5.2",
