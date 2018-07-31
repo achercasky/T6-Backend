@@ -10,6 +10,8 @@ const Presentismo = require('./routes/asistencia/presentismo');
 
 const Horario = require('./routes/horario/horario');
 
+const Cronograma = require('./routes/cronograma/cronograma');
+
 const Routes = [
     {
         method: 'GET',
@@ -20,6 +22,21 @@ const Routes = [
         method: 'GET',
         path: '/cronograma/{id}',
         handler: Materias.getCronogramaById
+    },
+    {
+        method: 'POST',
+        path: '/cronograma',
+        handler: Cronograma.postCronograma
+    },
+    {
+        method: 'PUT',
+        path: '/cronograma',
+        handler: Cronograma.putCronograma
+    },
+    {
+        method: 'DELETE',
+        path: '/cronograma',
+        handler: Cronograma.deleteCronograma
     },
     {
         method: 'GET',
