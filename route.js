@@ -142,6 +142,11 @@ const Routes = [
         method: 'GET',
         path: '/reporte',
         handler: Reporte.generarPDF
+    },
+    {
+        method: 'GET',
+        path: '/reporte2',
+        handler: Reporte.generarPDF2
     }
 ]
 

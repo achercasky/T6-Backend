@@ -41,6 +41,32 @@ HANDLERS.generarPDF = async (request, h) => {
     });
 }
 
+HANDLERS.generarPDF2 = async (request, h) => {
+    
+        var asistencias;
+    
+        console.log(request.query.filter);
+    
+        if (request.query.filter == 'dia') {
+            asistencias = AsistenciaDB.getAsistenciaByQueryfromDB(request.query.id);
+        } else {
+            asistencias = AsistenciaDB.getAsistenciaByMateriafromDB(request.query.id);
+        }
+    
+        return asistencias.then(function (result) {
+    
+            console.log(result);
+    
+            return createPDF(FILE_NAME, result).then(function (pdf, response) {
+    
+                return pdf;
+            }).catch(function(error) {
+                console.log(error);
+                return error;
+            });
+        });
+    }
+
 function createPDF(filePath, text) {
     return new Promise((resolve, reject) => {
 
