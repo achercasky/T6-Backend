@@ -59,7 +59,7 @@ HANDLERS.generarPDF2 = async (request, h) => {
     
             return createPDF(FILE_NAME, result).then(function (pdf, response) {
     
-                return pdf;
+                return response;
             }).catch(function(error) {
                 console.log(error);
                 return error;
